@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat </title>
+  <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+</head>
+<body>
+  <div>
+    <input id="username" type="text" placeholder="Enter your name">
+    <button onclick="login()">Login</button>
+  </div>
+  <div>
+    <h3>Users:</h3>
+    <ul id="userList"></ul>
+  </div>
+  <div>
+    <h3>Public Chat:</h3>
+    <input id="publicMessage" type="text" placeholder="Enter message">
+    <button onclick="sendMessage()">Send</button>
+    <ul id="publicChat"></ul>
+  </div>
+  <div>
+    <h3>Private Chat with <span id="chatWithUser"></span>:</h3>
+    <input id="privateMessage" type="text" placeholder="Enter private message">
+    <button onclick="sendPrivateMessage()">Send</button>
+    <ul id="privateChat"></ul>
+  </div>
+
+  <script>
+    const socket = io('http://localhost:5000');
+
+    // Function to handle login
+    function login() {
+      const username = document.getElementById('username').value;
+      if (username.trim() !== '') {
+        socket.emit('loginName', username.trim());
+      } else {
+        alert('Please enter a valid username.');
+      }
+    }
+
+    // Function to display list of online users
+    socket.on('showUsers', (users) => {
+      const userList = document.getElementById('userList');
+      userList.innerHTML = '';
+      users.forEach(user => {
+        const li = document.createElement('li');
+        li.textContent = user.username;
+        li.onclick = () => startPrivateChat(user.id);
+        userList.appendChild(li);
+      });
+    });
+
+    // Function to send a public message
+    function sendMessage() {
+      const message = document.getElementById('publicMessage').value;
+      if (message.trim() !== '') {
+        socket.emit('sendMessage', message.trim());
+        document.getElementById('publicMessage').value = ''; // Clear input field after sending message
+      } else {
+        alert('Please enter a message.');
+      }
+    }
+
+    // Function to display public chat messages
+    socket.on('displayMsg', (messages) => {
+      const publicChat = document.getElementById('publicChat');
+      publicChat.innerHTML = '';
+      messages.forEach(msg => {
+        const li = document.createElement('li');
+        li.textContent = `${msg.user}: ${msg.message}`;
+        publicChat.appendChild(li);
+      });
+    });
+
+    // Function to start a private chat with a user
+    function startPrivateChat(userId) {
+      socket.emit('chatWith', userId);
+    }
+
+    // Function to display the name of the user being privately chatted with
+    socket.on('showUser', (username) => {
+      document.getElementById('chatWithUser').textContent = username;
+    });
+
+    // Function to send a private message
+    function sendPrivateMessage() {
+      const message = document.getElementById('privateMessage').value;
+      if (message.trim() !== '') {
+        socket.emit('sendMessagePrivate', message.trim());
+        document.getElementById('privateMessage').value = ''; // Clear input field after sending message
+      } else {
+        alert('Please enter a message.');
+      }
+    }
+
+    // Function to display private chat messages
+    socket.on('displayMsgPrivate', (messages) => {
+      const privateChat = document.getElementById('privateChat');
+      privateChat.innerHTML = '';
+      messages.forEach(msg => {
+        const li = document.createElement('li');
+        li.textContent = `${msg.user}: ${msg.message}`;
+        privateChat.appendChild(li);
+      });
+    });
+
+    // Handle admin actions
+    socket.on('kicked', () => {
+      alert('You have been kicked out by the admin.');
+      location.reload();
+    });
+
+    socket.on('banned', () => {
+      alert('You have been banned by the admin.');
+      location.reload();
+    });
+
+    socket.on('usernameTaken', () => {
+      alert('This username is already taken. Please choose another one.');
+    });
+
+    // Function to handle chat statistics
+    socket.on('updateStats', (stats) => {
+      // Implement Chart.js or any other method to display stats
+      console.log(stats);
+    });
+  </script>
+</body>
+</html>

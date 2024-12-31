@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  app:
+    image: fatmamaged/kadia_app:latest
+    ports:
+      - "3001:3000"
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  db:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - app-network
+
+  mongo-express:
+    image: mongo-express:latest
+    ports:
+      - "8085:8081"
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=db
+    networks:
+      - app-network
+
+volumes:
+  mongo-data:
+
+networks:
+  app-network:

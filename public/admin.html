@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-2 d-none d-md-block bg-dark sidebar">
+                <div class="sidebar-sticky">
+                    <h2 class="text-white text-center py-3">Admin Panel</h2>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active text-white" href="#users">Users</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="#lawyers">Pending Lawyers</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="#cases">Cases</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="#consultations">Consultations</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 main-content">
+                <div class="pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Dashboard</h1>
+                </div>
+
+                <section id="users">
+                    <h2>Users</h2>
+                    <form id="userForm" class="mb-3">
+                        <div class="form-group">
+                            <label for="userName">Name</label>
+                            <input type="text" class="form-control" id="userName" placeholder="Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="userEmail">Email</label>
+                            <input type="email" class="form-control" id="userEmail" placeholder="Email" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add User</button>
+                    </form>
+                    <button onclick="getUsers()" class="btn btn-secondary mb-3">Get Users</button>
+                    <ul id="usersList" class="list-group"></ul>
+                </section>
+
+                <section id="lawyers">
+                    <h2>Pending Lawyers</h2>
+                    <form id="lawyerForm" class="mb-3">
+                        <div class="form-group">
+                            <label for="lawyerName">Name</label>
+                            <input type="text" class="form-control" id="lawyerName" placeholder="Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lawyerEmail">Email</label>
+                            <input type="email" class="form-control" id="lawyerEmail" placeholder="Email" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Pending Lawyer</button>
+                    </form>
+                    <button onclick="getPendingLawyers()" class="btn btn-secondary mb-3">Get Pending Lawyers</button>
+                    <ul id="pendingLawyersList" class="list-group"></ul>
+                </section>
+
+                <section id="cases">
+                    <h2>Cases</h2>
+                    <form id="caseForm" class="mb-3">
+                        <div class="form-group">
+                            <label for="caseTitle">Title</label>
+                            <input type="text" class="form-control" id="caseTitle" placeholder="Title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="caseDescription">Description</label>
+                            <input type="text" class="form-control" id="caseDescription" placeholder="Description" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Case</button>
+                    </form>
+                    <button onclick="getCases()" class="btn btn-secondary mb-3">Get Cases</button>
+                    <ul id="casesList" class="list-group"></ul>
+                </section>
+
+                <section id="consultations">
+                    <h2>Consultations</h2>
+                    <form id="consultationForm" class="mb-3">
+                        <div class="form-group">
+                            <label for="consultationTitle">Title</label>
+                            <input type="text" class="form-control" id="consultationTitle" placeholder="Title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="consultationDescription">Description</label>
+                            <input type="text" class="form-control" id="consultationDescription" placeholder="Description" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Consultation</button>
+                    </form>
+                    <button onclick="getConsultations()" class="btn btn-secondary mb-3">Get Consultations</button>
+                    <ul id="consultationsList" class="list-group"></ul>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
